@@ -1,2 +1,2 @@
-# Socio-MERN
+# Socio
  
