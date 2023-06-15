@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import multer from "multer";
 import helmet from "helmet";
 import morgan from "morgan";
-import Path from "path";
+import path from "path";
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
@@ -19,7 +19,6 @@ import User from "./models/User.js";
 import Post from "./models/Post.js";
 import { users, posts } from "./data/index.js";
 
-import path from "path";
 import { error } from "console";
 
 
@@ -53,22 +52,22 @@ const upload = multer({Storage});
 app.post("/auth/register", upload.single("picture"), register);  //verifyToken add verify token for login authentication
 app.post("/posts",verifyToken, upload.single("picture"), createPost);
 
-/*  Routes */
-app.use("./auth", authRoutes); 
-app.use("./users", userRoutes);
-app.use("./posts", postRoutes);
+/* ROUTES */
+app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 
 /* Mongoose setup*/
 const PORT = process.env.PORT || 6001;
-mongoose.connect(process.env.MONGO_URL,{
+mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
-    useUnifiedTopology: true, 
-}).then(() => {
-    app.listen(PORT, ()=> console.log(`SERVER CONNECTED ON PORT: ${PORT}`));
+    useUnifiedTopology: true,
+  }).then(() => {
+    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
 
-    /* Add DATA */
+    /* ADD DATA ONE TIME */
     // User.insertMany(users);
     // Post.insertMany(posts);
-}).catch((error) => console.log(`${error} did not connect`));
- 
+  })
+  .catch((error) => console.log(`${error} did not connect`));
