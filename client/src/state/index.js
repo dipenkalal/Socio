@@ -28,3 +28,18 @@ export const authSlice = createSlice({
 export const { setMode, setLogin, setLogout, } =
   authSlice.actions;
 export default authSlice.reducer;
+
+// const loader = new Loader({
+//   apiKey: "",
+//   version: "weekly",
+//   ...additionalOptions,
+// });
+
+// loader.load().then(async () => {
+//   const { Map } = await google.maps.importLibrary("maps");
+
+//   map = new Map(document.getElementById("map"), {
+//     center: { lat: -34.397, lng: 150.644 },
+//     zoom: 8,
+//   });
+// });

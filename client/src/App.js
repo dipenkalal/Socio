@@ -5,6 +5,8 @@ import RegisterPage from "scenes/registerPage";
 import CarpoolingPage from "scenes/carpoolingPage";
 import EVStationPage from "scenes/evstationPage";
 import WinsdorTransitPage from "scenes/windsortransitPage";
+import PostRidePage from "scenes/postridePage";
+import GetRidePage from "scenes/getridePage";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -32,6 +34,9 @@ function App() {
             <Route path="/evstation" element={<EVStationPage />} />
             <Route path="/windsortransit" element={<WinsdorTransitPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/postride" element={<PostRidePage />} />
+            <Route path="/getride" element={<GetRidePage />} />
+            
             {/* <Route
               path="/home"
               element={isAuth ? <HomePage /> : <HomePage />}

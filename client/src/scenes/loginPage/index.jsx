@@ -9,7 +9,7 @@ const LoginPage = () => {
 
   const handleLogin = () => {
     // Insert logic to handle login
-        navigate("/welcome");
+        navigate("/dashboard");
   };
 
 

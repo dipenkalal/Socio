@@ -136,7 +136,7 @@ const Navbar = () => {
           transformOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
           <MenuItem onClick={handleCarpoolingClose}>
-            <Link to="/bookride">Book Ride</Link>
+            <Link to="/getride">Book Ride</Link>
           </MenuItem>
           <MenuItem onClick={handleCarpoolingClose}>
             <Link to="/postride">Post Ride</Link>
