@@ -19,7 +19,7 @@ const PostRidePage = () => {
 
   return (
     <Box >
-      <Navbar />
+      {/* <Navbar /> */}
       <Box className="background-container" >
         <Box
           width="55%"

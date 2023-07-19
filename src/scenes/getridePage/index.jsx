@@ -88,7 +88,6 @@ const GetRidePage = () => {
 
   return (
     <Box >
-      <Navbar />
       <Box className="background-container" sx={{ flexGrow: 1 }} >
         <Box
           width="55%"
@@ -186,7 +185,7 @@ const GetRidePage = () => {
                 ]}
               >
                 <DemoItem label="Select Ride Date">
-                  <DatePicker defaultValue={dayjs('2022-04-17')} />
+                  <DatePicker defaultValue={dayjs('2023-07-01')} />
                 </DemoItem>
               </DemoContainer>
             </LocalizationProvider>

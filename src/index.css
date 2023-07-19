@@ -25,7 +25,7 @@ body,
 
 .background-container {
   background-color: rgba(0, 0, 0, 0.1);
-  background-image: url('https://dsm01pap007files.storage.live.com/y4m46Msk0scGWE32vmuDFvV8_1Kxo4QOyjIy4CeAdxHSAqHHQtZHRSnBNLCPfPYUPr2oJoRsQ3kqAeezOLxdio7BZVGqDkKJQYaPnsVG-XBLmXlt5mftjJgiyEIfUD2JvZnJUKSa5bMrzBuSwWHqU8eJLTj5_CuRubfMIem9--zhOjq1ujztF0KLmY-8rp8RPhtFwPErifD12ZA2saQL3IGFV7QQsE7sh_2A83hTRPwwkk?encodeFailures=1&width=1920&height=1080');
+  background-image: url('/public/assets/Background.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -100,3 +100,19 @@ li:hover {
   display: flex;
   flex-direction: row;
 }
+
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #f6d365;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+}
+/* .center {
+  margin: auto;
+  width: 30%;
+  padding: 10px;
+} */

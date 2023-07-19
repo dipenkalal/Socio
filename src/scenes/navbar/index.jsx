@@ -1,4 +1,5 @@
 import { useState } from "react";
+import * as React from 'react';
 import {
   IconButton,
   Typography,
@@ -6,6 +7,8 @@ import {
   Box,
   Menu,
   MenuItem,
+  Button,
+  Fade,
 
   //   useMediaQuery,
 } from "@mui/material";
@@ -15,9 +18,10 @@ import {
 } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { setMode } from "state";
-import { useNavigate, BrowserRouter as Link } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
-import Button from '@mui/material/Button';
+
+
 
 const Navbar = () => {
   const windsorTransit = () => {
@@ -32,6 +36,15 @@ const Navbar = () => {
   const alt = theme.palette.background.alt;
   const [carpoolingAnchorEl, setCarpoolingAnchorEl] = useState(null);
   const [evStationAnchorEl, setEVStationAnchorEl] = useState(null);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleCarpoolingClick = (event) => {
     setCarpoolingAnchorEl(event.currentTarget);
@@ -118,6 +131,32 @@ const Navbar = () => {
          */}
 
 
+<div>
+      <Button
+        id="fade-button"
+        aria-controls={open ? 'fade-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        Car Pooling
+      </Button>
+      <Menu
+        id="fade-menu"
+        MenuListProps={{
+          'aria-labelledby': 'fade-button',
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Fade}
+      >
+        <MenuItem onClick={handleClose}><link to="/getride">Book Ride</link></MenuItem>
+        <MenuItem onClick={handleClose}><link to="/postride">Post Ride</link></MenuItem>
+        <MenuItem onClick={handleClose}><link to="/viewrides">View Rides</link></MenuItem>
+      </Menu>
+    </div>
+{/* 
         <div>
           <Button onClick={handleCarpoolingClick} sx={{ height: "6ev", width: "10ev", }}>
             <Typography fontWeight="500" variant="h6">
@@ -143,7 +182,7 @@ const Navbar = () => {
               <Link to="/viewrides">View Rides</Link>
             </MenuItem>
           </Menu>
-        </div>
+        </div> */}
         {/* <div>
   <Button 
     onClick={handleCarpoolingClick}
@@ -187,10 +226,10 @@ const Navbar = () => {
             transformOrigin={{ vertical: 'top', horizontal: 'center' }}
           >
             <MenuItem onClick={handleEVStationClose}>
-              <Link to="/addstation">Add Station</Link>
+              <link to="/addstation">Add Station</link>
             </MenuItem>
             <MenuItem onClick={handleEVStationClose}>
-              <Link to="/findstation">Find Station</Link>
+              <link to="/findstation">Find Station</link>
             </MenuItem>
           </Menu>
         </div>
