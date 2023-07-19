@@ -9,12 +9,12 @@ const EVStationPage = () => {
 
   const handleRegister = (initialValues) => {
     // Insert logic to handle Register
-        navigate("/login");
+    navigate("/login");
   };
 
 
   return (
-    <Box  className="background-container" >
+    <Box className="background-container" >
       {/* flexDirection="column" > */}
       {/* <Box flexDirection="row"> */}
 
@@ -23,7 +23,7 @@ const EVStationPage = () => {
         p="1rem 6%"
         textAlign="center">
         <img src="/assets/GreenRouteLogo.png" alt="GreenRoute Logo" height="125px" />
-</Box>
+      </Box>
 
       <Box
         width={isNonMobileScreens ? "50%" : "80%"}
@@ -41,7 +41,7 @@ const EVStationPage = () => {
 
         {/* // new content here */}
         {/* First Name input */}
-        <TextField 
+        <TextField
           label="First Name"
           name="first name"
           type="fname"
@@ -59,8 +59,8 @@ const EVStationPage = () => {
           required
           sx={{ mt: "1rem" }}
         />
-        
-        
+
+
         {/* Email input */}
         <TextField
           label="Email"
@@ -93,13 +93,13 @@ const EVStationPage = () => {
 
         {/* Register Button */}
         <Button
-          sx={{ mt: "1rem", height: "6ev", width: "10ev",  backgroundColor: "#A2FB90", color: "#000000", fontWeight: "bold", fontSize: "15px" }} 
+          sx={{ mt: "1rem", height: "6ev", width: "10ev", backgroundColor: "#A2FB90", color: "#000000", fontWeight: "bold", fontSize: "15px" }}
           type="button"
           variant="contained"
           color="primary"
           size="medium"
           onClick={handleRegister}
-          // sx={{ mt: "2rem" }} // Adding top margin for spacing
+        // sx={{ mt: "2rem" }} // Adding top margin for spacing
         >
           Register
         </Button>
@@ -115,7 +115,7 @@ const EVStationPage = () => {
 
       </Box>
       {/* </Box> */}
-      </Box>
+    </Box>
   );
 };
 

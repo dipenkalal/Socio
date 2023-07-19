@@ -9,7 +9,7 @@ const LoginPage = () => {
 
   const handleLogin = () => {
     // Insert logic to handle login
-        navigate("/welcome");
+    navigate("/dashboard");
   };
 
 
@@ -20,7 +20,7 @@ const LoginPage = () => {
         p="1rem 6%"
         textAlign="center">
         <img src="/assets/GreenRouteLogo.png" alt="GreenRoute Logo" height="125px" />
-</Box>
+      </Box>
 
       <Box
         width={isNonMobileScreens ? "50%" : "93%"}
@@ -35,7 +35,7 @@ const LoginPage = () => {
         <Typography fontWeight="400" variant="h4" sx={{ mb: "1rem" }}>
           Login Page
         </Typography>
-        
+
         {/* // new content here */}
         {/* Email input */}
         <TextField
@@ -57,13 +57,13 @@ const LoginPage = () => {
         />
 
         {/* Login Button */}
-        <Button 
+        <Button
           type="button"
           variant="contained"
           color="primary"
-          size="large" 
+          size="large"
           onClick={handleLogin}
-          sx={{ mt: "1rem", height: "6ev", width: "10ev",  backgroundColor: "#A2FB90", color: "#000000", fontWeight: "bold", fontSize: "15px" }} >
+          sx={{ mt: "1rem", height: "6ev", width: "10ev", backgroundColor: "#A2FB90", color: "#000000", fontWeight: "bold", fontSize: "15px" }} >
           Login
         </Button>
 
