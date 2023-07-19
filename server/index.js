@@ -10,16 +10,18 @@ import path from "path";
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
-import postRoutes from "./routes/posts.js";
+import rideRoutes from "./routes/rides.js";
+import evUserRoutes from "./routes/evuser.js";
+import evAdminRoutes from "./routes/evadmin.js";
 import { register } from "./controllers/auth.js";
-import { createPost } from "./controllers/posts.js"; 
-import { verifyToken } from "./middleware/auth.js";
+// import { createPost } from "./controllers/posts.js"; 
+// import { verifyToken } from "./middleware/auth.js";
 
-import User from "./models/User.js";
-import Post from "./models/Post.js";
-import { users, posts } from "./data/index.js";
+// import User from "./models/User.js";
+// import Post from "./models/Post.js";
+// import { users, posts } from "./data/index.js";
 
-import { error } from "console";
+// import { error } from "console";
 
 
 /* configuration */
@@ -50,12 +52,15 @@ const upload = multer({Storage});
 
 /* Routes with Files */
 app.post("/auth/register", upload.single("picture"), register);  //verifyToken add verify token for login authentication
-app.post("/posts",verifyToken, upload.single("picture"), createPost);
+//app.post("/posts",verifyToken, upload.single("picture"), createPost);
 
 /* ROUTES */
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
-app.use("/posts", postRoutes);
+app.use("/rides", rideRoutes);
+app.use("/evuser", evUserRoutes);
+app.use("/evadmin", evAdminRoutes);
+// app.use("/posts", postRoutes);
 
 
 /* Mongoose setup*/

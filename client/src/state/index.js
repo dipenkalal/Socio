@@ -1,4 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {
+  createSlice
+} from "@reduxjs/toolkit";
 
 const initialState = {
   mode: "light",
@@ -25,8 +27,12 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setMode, setLogin, setLogout, } =
-  authSlice.actions;
+export const {
+  setMode,
+  setLogin,
+  setLogout,
+} =
+authSlice.actions;
 export default authSlice.reducer;
 
 // const loader = new Loader({
