@@ -28,6 +28,7 @@ import { register } from "./controllers/auth.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);;
 dotenv.config();
+// const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(helmet());

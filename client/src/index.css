@@ -166,3 +166,10 @@ li:hover {
   display: flex;
   justify-content: space-evenly;
 }
+
+.dropdown__submenu {
+  color: black;
+  padding: 0px 5px;
+  text-decoration: none;
+  display: block;
+}

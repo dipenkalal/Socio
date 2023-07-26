@@ -46,9 +46,16 @@ const Navbar = () => {
     }, [user, navigate]);
     
     const carpoolingItems = [
-        { name: 'Get Ride', to: '/getride' },
-        { name: 'Post Ride', to: '/postride' },
-        { name: 'View Rides', to: '/viewride' },
+        { name: 'Passenger', to: '/passenger',
+        subItems: [
+            { name: '-Book Ride', to: 'bookride' },
+            { name: '-View Booked Rides', to: 'viewbookedride' },
+          ],},
+        { name: 'Rider', to: '/rider',
+        subItems: [
+            { name: '-Post Ride', to: 'postride' },
+            { name: '-View Posted Rides', to: 'viewpostedride' },
+          ],},
     ];
     const evChargingStationItems = [
         { name: 'Find a Station', to: '/findstation' },

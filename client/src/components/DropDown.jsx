@@ -27,11 +27,16 @@ const Dropdown = ({ menuItems, label }) => {
       {isOpen && (
         <div className="dropdown__menu">
           {menuItems.map((menuItem, index) => (
-            <Link to={menuItem.to} 
-                  key={index} 
-                  className="dropdown__item">
-              {menuItem.name}
-            </Link>
+            <div key={index}>
+              <Link to={menuItem.to} className="dropdown__item">
+                {menuItem.name}
+              </Link>
+              {menuItem.subItems && menuItem.subItems.map((subItem, subIndex) => (
+                <div key={subIndex} className="dropdown__submenu">
+                  <Link to={subItem.to} className="dropdown__item">{subItem.name}</Link>
+                </div>
+              ))}
+            </div>
           ))}
         </div>
       )}

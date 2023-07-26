@@ -10,9 +10,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-const cors = require('cors');
 
-app.use(cors());
 
 
 function sleep(delay = 0) {
