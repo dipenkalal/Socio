@@ -10,6 +10,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+const cors = require('cors');
+
+app.use(cors());
 
 
 function sleep(delay = 0) {
@@ -30,9 +33,8 @@ const GetRidePage = () => {
 
 
   const handleGetRide = async () => {
-    const userId = userid; // Replace this with actual user id
+    // const userId = userid; // Replace this with actual user id
     const payload = {
-      userId: userid,
       from: fromCity,
       to: toCity,
       date: date.format('YYYY-MM-DD') // Assuming 'date' is in dayjs format
@@ -42,7 +44,7 @@ const GetRidePage = () => {
       const response = await axios.post('http://localhost:3001/rides/getRides', payload);
       if (response.status === 200) {
         console.log(response.data);
-        navigate("/viewrides");  // Assuming you want to navigate after successful API call
+        navigate("/getride");  // Assuming you want to navigate after successful API call
       }
     } catch (error) {
       console.error('Error during API call', error);
