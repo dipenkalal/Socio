@@ -16,19 +16,19 @@ const DashboardPage = () => {
 
   //   Redirection of Pages
   const handleGetRide = () => {
-    navigate("/searchride");
+    navigate("/passenger/searchride");
   };
   const handlePostRide = () => {
-    navigate("/postride");
+    navigate("/rider/postride");
   };
   const handleAddStation = () => {
-    navigate("/addstation");
+    navigate("/admin/addstation");
   };
   const handleFindStation = () => {
     navigate("/viewallstation");
   };
   const handleTransitTerminal = () => {
-    navigate("/allroutes");
+    navigate("/transit/allroutes");
   };
 
   //returning the view
