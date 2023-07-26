@@ -46,24 +46,24 @@ const Navbar = () => {
     }, [user, navigate]);
     
     const carpoolingItems = [
-        { name: 'Passenger', to: '/passenger',
+        { name: 'Passenger',
         subItems: [
-            { name: '-Book Ride', to: 'bookride' },
-            { name: '-View Booked Rides', to: 'viewbookedride' },
+            { name: '-Book Ride', to: '/passenger/searchride' },
+            { name: '-View Booked Rides', to: '/passenger/viewbookedride' },
           ],},
-        { name: 'Rider', to: '/rider',
+        { name: 'Rider', 
         subItems: [
-            { name: '-Post Ride', to: 'postride' },
-            { name: '-View Posted Rides', to: 'viewpostedride' },
+            { name: '-Post Ride', to: '/rider/postride' },
+            { name: '-View Posted Rides', to: '/rider/viewpostedride' },
           ],},
     ];
     const evChargingStationItems = [
-        { name: 'Find a Station', to: '/findstation' },
-        { name: 'Add a Station', to: '/addstation' },
+        { name: 'Find a Station', to: '/viewallstation' },
+        { name: 'Add a Station', to: '/admin/addstation' },
     ];
     const windsorTerminalItems = [
-        { name: 'Find Bus', to: '/findbus' },
-        { name: 'View All', to: '/view-all' },
+        { name: 'Find Bus', to: '/transit/searchnearbystation' },
+        { name: 'View All', to: '/transit/allroutes' },
     ];
     const userProfileItems = [
         { name: 'Profile', to: '/' },

@@ -16,22 +16,19 @@ const DashboardPage = () => {
 
   //   Redirection of Pages
   const handleGetRide = () => {
-    navigate("/getride");
+    navigate("/searchride");
   };
   const handlePostRide = () => {
     navigate("/postride");
-  };
-  const handleViewRide = () => {
-    navigate("/viewride");
   };
   const handleAddStation = () => {
     navigate("/addstation");
   };
   const handleFindStation = () => {
-    navigate("/findstation");
+    navigate("/viewallstation");
   };
   const handleTransitTerminal = () => {
-    navigate("/windsortransit");
+    navigate("/allroutes");
   };
 
   //returning the view
@@ -86,7 +83,7 @@ const DashboardPage = () => {
                 }}
                 onClick={handleGetRide}
               >
-                Book Ride
+                Book Ride - Passenger
               </Button>
               <Button
                 variant="contained"
@@ -100,21 +97,7 @@ const DashboardPage = () => {
                 }}
                 onClick={handlePostRide}
               >
-                Post Ride
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{
-                  margin: "0.5rem",
-                  backgroundColor: "#C2E0D0",
-                  height: "40px",
-                  width: "150px",
-                  fontWeight: "bold",
-                }}
-                onClick={handleViewRide}
-              >
-                View Rides
+                Post Ride - Rider
               </Button>
             </Box>
             {/* 

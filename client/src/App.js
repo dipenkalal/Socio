@@ -48,19 +48,19 @@ function App() {
 
 
 {/* passenger */}
-    < Route path = "/searchride" element = { <SearchRidePage/> } />
-    < Route path = "/viewbookedride" element = { <ViewBookedRide/> } />
+    < Route path = "/passenger/searchride" element = { <SearchRidePage/> } />
+    < Route path = "/passenger/viewbookedride" element = { <ViewBookedRide/> } />
 {/* Rider */}
-    < Route path = "/postride" element = { <PostRidePage/> } /> 
-    < Route path = "/viewpostedride" element = { <ViewPostedRide/> } /> 
+    < Route path = "/rider/postride" element = { <PostRidePage/> } /> 
+    < Route path = "/rider/viewpostedride" element = { <ViewPostedRide/> } /> 
 
     
-    < Route path = "/addstation" element = { <EVAddStationPage/> } /> 
+    < Route path = "/admin/addstation" element = { <EVAddStationPage/> } /> 
     < Route path = "/viewallstation" element = { <EVViewStationPage/> } />
     
     
-    < Route path = "/allroutes" element = { <AllRoutesTransit/> } /> 
-    < Route path = "/searchnearbystation" element = { <SearchNearbyStation/> } /> 
+    < Route path = "/transit/allroutes" element = { <AllRoutesTransit/> } /> 
+    < Route path = "/transit/searchnearbystation" element = { <SearchNearbyStation/> } /> 
     
     {
        <Route
