@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as React from 'react';
 import {
     Box,
@@ -37,7 +37,14 @@ const Navbar = () => {
     const primaryLight = theme.palette.primary.light;
     const alt = theme.palette.background.alt;
 
-    const fullName = `${user.firstName}`;
+    const fullName = `${user?.firstName}`;
+    
+    useEffect(() => {
+        if (!user) {
+            navigate('/welcome');
+        }
+    }, [user, navigate]);
+    
     const carpoolingItems = [
         { name: 'Get Ride', to: '/getride' },
         { name: 'Post Ride', to: '/postride' },
@@ -82,13 +89,6 @@ const Navbar = () => {
             {/* DESKTOP NAV */}
             {isNonMobileScreens ? (
                 <FlexBetween gap="2rem">
-                    <IconButton onClick={() => dispatch(setMode())}>
-                        {theme.palette.mode === "dark" ? (
-                            <DarkMode sx={{ fontSize: "25px" }} />
-                        ) : (
-                            <LightMode sx={{ color: dark, fontSize: "25px" }} />
-                        )}
-                    </IconButton>
                     <div className="button-container" >
                         <Dropdown menuItems={carpoolingItems} label="Carpooling" />
                         <Dropdown menuItems={evChargingStationItems} label="EV Charging Station" />

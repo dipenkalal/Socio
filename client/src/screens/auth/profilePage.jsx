@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Typography, useTheme, useMediaQuery, TextField, Avatar, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -6,25 +6,25 @@ import { useSelector } from 'react-redux';
 import Navbar from 'components/NavBar';
 
 const ProfilePage = () => {
+
     const theme = useTheme();
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const userid = useSelector((state) => state._id);
-    // const firstName = useSelector((state) => state.firstName);
-    // const lastName = useSelector((state) => state.lastName);
-    // const email = useSelector((state) => state.email);
-    // const mobile = useSelector((state) => state.mobile);
-    // const age = useSelector((state) => state.age);
+    useEffect(() => {
+        if (!user) {
+            navigate('/welcome');
+        }
+    }, [user, navigate]);
 
+    const [firstName, setFirstName] = useState(user?.firstName || '');
+    const [lastName, setLastName] = useState(user?.lastName || '');
+    const [age, setAge] = useState(user?.age || '');
+    const [email, setEmail] = useState(user?.email || '');
+    const [mobile, setMobile] = useState(user?.mobile || '');
 
-    const [firstName, setFirstName] = useState(user.firstName);
-    const [lastName, setLastName] = useState(user.lastName);
-    const [age, setAge] = useState(user.age);
-    const [email, setEmail] = useState(user.email);
-    const [mobile, setMobile] = useState(user.mobile);
-    
     const [gender, setGender] = useState('');
 
     const handleChange = (event) => {
@@ -81,8 +81,9 @@ const ProfilePage = () => {
                         />
                     </Box>
                     <Typography fontWeight="800" variant="h3" sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }} textAlign={"center"}>
-                        {user.firstName} {user.lastName}
+                        {user?.firstName} {user?.lastName}
                     </Typography>
+
                     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
                         <TextField
                             required
