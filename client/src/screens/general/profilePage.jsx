@@ -1,7 +1,7 @@
 import { Box, Typography, useTheme, useMediaQuery, Grid, TextField, Autocomplete, Avatar, Button, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
-import Navbar from "components/navbar";
+import Navbar from "components/NavBar";
 import * as React from 'react';
 import { CenterFocusStrong } from "@mui/icons-material";
 
