@@ -50,7 +50,7 @@ const DashboardPage = () => {
         {/* // right column */}
         <Box flexDirection="column">
           <Box
-            width={isNonMobileScreens ? "70%" : "93%"}
+            width={isNonMobileScreens ? "105%" : "105%"}
             p="2rem"
             m="2rem auto"
             borderRadius="1.5rem"
@@ -61,7 +61,7 @@ const DashboardPage = () => {
           >
             {/* Top box */}
             <Box>
-              <Typography fontWeight="700" textAlign="left" variant="h3">
+              <Typography fontWeight="700" textAlign="center" variant="h3" style={{ marginBottom: "1rem" }}>
                 Carpooling
               </Typography>
             </Box>
@@ -139,14 +139,14 @@ const DashboardPage = () => {
           </Box>
           {/* Middle box */}
           <Box
-            width={isNonMobileScreens ? "70%" : "93%"}
+            width={isNonMobileScreens ? "105%" : "105%"}
             p="2rem"
             m="2rem auto"
             borderRadius="1.5rem"
             backgroundColor={theme.palette.background.alt}
           >
             <Box>
-              <Typography fontWeight="700" textAlign="left" variant="h3">
+              <Typography fontWeight="700" textAlign="center" variant="h3" style={{ marginBottom: "1rem" }}>
                 EV Station Finder
               </Typography>
               <Box
@@ -219,14 +219,14 @@ const DashboardPage = () => {
           </Box>
           {/* Last box */}
           <Box
-            width={isNonMobileScreens ? "70%" : "93%"}
+            width={isNonMobileScreens ? "105%" : "105%"}
             p="2rem"
             m="2rem auto"
             borderRadius="1.5rem"
             backgroundColor={theme.palette.background.alt}
           >
             <Box>
-              <Typography fontWeight="700" textAlign="left" variant="h3">
+              <Typography fontWeight="700" textAlign="center" variant="h3" style={{ marginBottom: "1rem" }}>
                 Transit Scheduler
               </Typography>
               <Box
