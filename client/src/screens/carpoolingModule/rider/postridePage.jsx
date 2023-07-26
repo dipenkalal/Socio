@@ -35,9 +35,10 @@ const PostRidePage = () => {
       "http://localhost:3001/rides/rider/postRide",
       {
         method: "POST",
-        headers: { "Content-type": "application/json" },
+        headers: { 
+        "Content-type": "application/json",
+        "Authorization": `Bearer ${token}`},
         body: JSON.stringify({
-          _id: userid,
           from: From,
           to: To,
           date: Date,
@@ -173,7 +174,7 @@ const PostRidePage = () => {
 
           {/* Link to register page */}
           <Typography sx={{ mt: "1rem", textAlign: "center" }}>
-            Not a Rider? <Link to="/getride">Search rides here.</Link>
+            Not a Rider? <Link to="/passenger/searchride">Search rides here.</Link>
           </Typography>
 
 
