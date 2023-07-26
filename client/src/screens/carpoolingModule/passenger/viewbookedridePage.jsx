@@ -7,17 +7,17 @@ import React, { useState } from 'react';
 // Define the Card component
 const TicketCard = ({ data }) => {
     return (
-          <Card sx={{ minWidth: '20%', m: 5, p: 3, backgroundColor: '#f5f5f5' }}>
+          <Card sx={{ minWidth: '20%', m: 5, p: 5, backgroundColor: '#f5f5f5' }}>
          {/* </Card> <Card sx={{ flex: '0 0 calc(33.33% - 16px)', m: 1, p: 2, backgroundColor: '#f5f5f5' }}> */}
         <CardContent>
           {/* <Typography variant="h5" component="div" sx={{ color: '#3f51b5' }}>{data.passenger}</Typography> */}
-          <Typography variant="body2" sx={{ color: '#000000', fontSize: '20px' }}>From: {data.from}</Typography>
-          <Typography variant="body2" sx={{ color: '#000000', fontSize: '20px' }}>To: {data.to}</Typography>
-          <Typography variant="body2" sx={{ color: '#000000', fontSize: '20px' }}>Date: {data.date}</Typography>
-          <Typography variant="body2" sx={{ color: '#000000', fontSize: '20px' }}>Time: {data.time}</Typography>
-          <Typography variant="body2" sx={{ color: '#000000', fontSize: '20px' }}>Price: {data.price}</Typography>
+          <Typography variant="body2" sx={{ color: '#000000', fontSize: '17px' }}>From: {data.from}</Typography>
+          <Typography variant="body2" sx={{ color: '#000000', fontSize: '17px' }}>To: {data.to}</Typography>
+          <Typography variant="body2" sx={{ color: '#000000', fontSize: '17px' }}>Date: {data.date}</Typography>
+          <Typography variant="body2" sx={{ color: '#000000', fontSize: '17px' }}>Time: {data.time}</Typography>
+          <Typography variant="body2" sx={{ color: '#000000', fontSize: '17px' }}>Price: {data.price}</Typography>
           {/* <Typography variant="body2" sx={{ color: '#607d8b' }}>Seat: {data.seat}</Typography> */}
-          <Button variant="contained" color="secondary" sx={{ mt: 2 }}>
+          <Button variant="contained" color="primary" sx={{ mt: 2, bgcolor: '#DC6363', color: '#FFFFFF' }}>
             Cancel
           </Button>
         </CardContent>
