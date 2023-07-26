@@ -2,24 +2,24 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Navbar from "components/NavBar";
 import { Box, Typography, Card, CardContent } from "@mui/material";
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 // Define the Card component
 const TicketCard = ({ data }) => {
     return (
-      <Card sx={{ minWidth: 275, marginTop: 2 }}>
+      <Card sx={{ minWidth: 275, m: 2, p: 2, backgroundColor: '#f5f5f5' }}>
         <CardContent>
-          <Typography variant="h5">{data.passenger}</Typography>
-          <Typography variant="body2">From: {data.from}</Typography>
-          <Typography variant="body2">To: {data.to}</Typography>
-          <Typography variant="body2">Date: {data.date}</Typography>
-          <Typography variant="body2">Time: {data.time}</Typography>
-          <Typography variant="body2">Price: {data.price}</Typography>
-          <Typography variant="body2">Seat: {data.seat}</Typography>
+          <Typography variant="h5" component="div" sx={{ color: '#3f51b5' }}>{data.passenger}</Typography>
+          <Typography variant="body2" sx={{ color: '#607d8b' }}>From: {data.from}</Typography>
+          <Typography variant="body2" sx={{ color: '#607d8b' }}>To: {data.to}</Typography>
+          <Typography variant="body2" sx={{ color: '#607d8b' }}>Date: {data.date}</Typography>
+          <Typography variant="body2" sx={{ color: '#607d8b' }}>Time: {data.time}</Typography>
+          <Typography variant="body2" sx={{ color: '#607d8b' }}>Price: {data.price}</Typography>
+          <Typography variant="body2" sx={{ color: '#607d8b' }}>Seat: {data.seat}</Typography>
         </CardContent>
       </Card>
     );
-  };
+};
 
 // Main component
 const App = () => {
@@ -29,24 +29,12 @@ const App = () => {
       // Add more data as needed
     ]);
 
-  // Fetch data from the API
-//   useEffect(() => {
-//     fetch('https://your-api-url')
-//       .then((response) => response.json())
-//       .then((data) => setData(data));
-//   }, []);
-
   return (
-    <Box sx={{ '& > :not(style)': { m: 1 }}}>
-    {data.map((item, index) => (
-      <TicketCard key={index} data={item} />
-    ))}
-  </Box>
-    // <div>
-    //   {data.map((item, index) => (
-    //     <Card key={index} data={item} />
-    //   ))}
-    // </div>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {data.map((item, index) => (
+        <TicketCard key={index} data={item} />
+      ))}
+    </Box>
   );
 };
 

@@ -83,7 +83,7 @@ const DashboardPage = () => {
                 }}
                 onClick={handleGetRide}
               >
-                Book Ride - Passenger
+                Book Ride
               </Button>
               <Button
                 variant="contained"
@@ -97,7 +97,7 @@ const DashboardPage = () => {
                 }}
                 onClick={handlePostRide}
               >
-                Post Ride - Rider
+                Post Ride
               </Button>
             </Box>
             {/* 
