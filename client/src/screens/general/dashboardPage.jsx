@@ -95,7 +95,7 @@ const DashboardPage = () => {
                   margin: "0.5rem",
                   backgroundColor: "#C2E0D0",
                   height: "40px",
-                  width: "15opx",
+                  width: "150px",
                   fontWeight: "bold",
                 }}
                 onClick={handlePostRide}

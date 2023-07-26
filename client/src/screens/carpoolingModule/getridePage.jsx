@@ -32,7 +32,7 @@ const GetRidePage = () => {
   const handleGetRide = async () => {
     const userId = userid; // Replace this with actual user id
     const payload = {
-      userId: "64a1d89eb6797c14fcbf68b9",
+      userId: userid,
       from: fromCity,
       to: toCity,
       date: date.format('YYYY-MM-DD') // Assuming 'date' is in dayjs format
