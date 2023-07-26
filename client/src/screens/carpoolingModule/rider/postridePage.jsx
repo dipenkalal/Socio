@@ -1,12 +1,9 @@
 import { Box, Typography, TextField, Button, useTheme, useMediaQuery, Autocomplete } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import Navbar from "components/NavBar";
 import { useState } from "react";
-//import DraftsOutlinedIcon from '@material-ui/icons/DraftsOutlined';
-
-
 
 const PostRidePage = () => {
   const theme = useTheme();
@@ -15,12 +12,12 @@ const PostRidePage = () => {
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const userid = useSelector((state) => state._id);
-  const [From, setCityFrom] = useState('')
-  const [To, setCityTo] = useState('')
-  const [Date, setDate] = useState('')
-  const [Time, setTime] = useState('')
-  const [Price, setPrice] = useState('')
-  const [Seat, setSeat] = useState('')
+  const [from, setCityFrom] = useState('')
+  const [to, setCityTo] = useState('')
+  const [date, setDate] = useState('')
+  const [time, setTime] = useState('')
+  const [price, setPrice] = useState('')
+  const [seat, setSeat] = useState('')
   const [errorMessage, setErrorMessage] = useState(null);
   const error = [];
 
@@ -30,42 +27,54 @@ const PostRidePage = () => {
     });
   }
 
-  function postRide() {
-    fetch(
-      "http://localhost:3001/rides/rider/postRide",
-      {
-        method: "POST",
-        headers: { 
-        "Content-type": "application/json",
-        "Authorization": `Bearer ${token}`},
-        body: JSON.stringify({
-          from: From,
-          to: To,
-          date: Date,
-          time: Time,
-          price: Price,
-          seat: Seat,
-        }),
-      }
-    ).then((response) => {
+  async function postRide() {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/rides/rider/postRide",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            From: from.title,
+            To: to.title,
+            Date: date,
+            Time: time,
+            userid: userid,
+            Price: price,
+            Seat: seat,
+          }),
+        }
+      );
+
       if (!response.ok) {
         throw new Error('Server response: ' + response.statusText);
-      }
-      else {
+      } else {
         alert("Your Ride has been posted successfully!");
       }
-    }).catch((error) => {
+
+    } catch (error) {
       setErrorMessage(error);  // Show error message on frontend
-    });
+    }
+  }
+
+
+  const handleCityChange = (e, cityType) => {
+    if (cityType === "from") {
+      setCityFrom(e.target.value);
+    } else if (cityType === "to") {
+      setCityTo(e.target.value);
+    }
   }
 
 
   const handlePostRide = (e) => {
     e.preventDefault()
     postRide();
-    console.log(From, To, Date, Time, Price, Seat)
+    console.log(from, to, date, time, userid, price, seat)
   };
-
 
   return (
     <Box >
@@ -92,29 +101,42 @@ const PostRidePage = () => {
             Please fill the details with maximum accuracy to help ride takers find your ride!
           </Typography>
 
-          {/* // new content here */}
-          <Autocomplete
-            options={citynames}
-            getOptionLabel={(option) => option.title || 'No title'}
+          <TextField
+            select
             fullWidth
-            sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
-            value={From}
-            onChange={(e, newValue) => {
-              setCityFrom(newValue || '');
+            label="From City"
+            value={from}
+            onChange={(event) => handleCityChange(event, "from")}
+            variant="outlined"
+            SelectProps={{
+              native: true,
             }}
-            renderInput={(params) => <TextField {...params} label="Where From?" />}
-          />
-          <Autocomplete
-            options={citynames}
-            getOptionLabel={(option) => option.title || 'No title'}
+            sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
+          >
+            {citynames.map((option, index) => (
+              <option key={index} value={option.title}>
+                {option.title}
+              </option>
+            ))}
+          </TextField>
+          <TextField
+            select
             fullWidth
-            sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
-            value={To}
-            onChange={(e, newValue) => {
-              setCityTo(newValue || '');
+            label="To City"
+            value={to}
+            onChange={(event) => handleCityChange(event, "to")}
+            variant="outlined"
+            SelectProps={{
+              native: true,
             }}
-            renderInput={(params) => <TextField {...params} label="Where To?" />}
-          />
+            sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
+          >
+            {citynames.map((option, index) => (
+              <option key={index} value={option.title}>
+                {option.title}
+              </option>
+            ))}
+          </TextField>
 
           <TextField
             label="Date"
@@ -124,7 +146,7 @@ const PostRidePage = () => {
             required
             sx={{ mt: "1rem" }} // Adding top margin for spacing
             onChange={(e) => setDate(e.target.value)}
-            value={Date}
+            value={date}
           />
 
           <TextField
@@ -135,7 +157,7 @@ const PostRidePage = () => {
             required
             sx={{ mt: "1rem" }} // Adding top margin for spacing
             onChange={(e) => setTime(e.target.value)}
-            value={Time}
+            value={time}
           />
 
           <TextField
@@ -146,7 +168,7 @@ const PostRidePage = () => {
             required
             sx={{ mt: "1rem" }} // Adding top margin for spacing
             onChange={(e) => setPrice(e.target.value)}
-            value={Price}
+            value={price}
           />
 
           <TextField
@@ -157,7 +179,7 @@ const PostRidePage = () => {
             required
             sx={{ mt: "1rem" }} // Adding top margin for spacing
             onChange={(e) => setSeat(e.target.value)}
-            value={Seat}
+            value={seat}
           />
 
 
@@ -185,67 +207,65 @@ const PostRidePage = () => {
 
 
 
-    </Box>
+    </Box >
   );
 };
 
 
 const citynames = [
-  { title: '' },
-  { title: 'Barrie' },
-  { title: 'Belleville' },
-  { title: 'Brampton' },
-  { title: 'Brant' },
-  { title: 'Brantford' },
-  { title: 'Brockville' },
-  { title: 'Burlington' },
-  { title: 'Cambridge' },
-  { title: 'Cambridge' },
-  { title: 'Cornwall' },
-  { title: 'Dryden' },
-  { title: 'Elliot Lake' },
-  { title: 'Greater Sudbury' },
-  { title: 'Guelph' },
-  { title: 'Haldimand County' },
-  { title: 'Hamilton' },
-  { title: 'Kawartha Lakes' },
-  { title: 'Kenora' },
-  { title: 'Kingston' },
-  { title: 'Kitchene' },
-  { title: 'London' },
-  { title: 'Markham' },
-  { title: 'Mississauga' },
-  { title: 'Niagara' },
-  { title: 'Norfolk' },
-  { title: 'NorthBay' },
-  { title: 'Orillia' },
-  { title: 'Oshawa' },
-  { title: 'Ottawa' },
-  { title: 'Owen Sound' },
-  { title: 'Pembroke' },
-  { title: 'Peterborough' },
-  { title: 'Pickering' },
-  { title: 'Port Colborne' },
-  { title: 'Prince Edward' },
-  { title: 'Quinte West' },
-  { title: 'Richmond Hill' },
-  { title: 'Sarnia' },
-  { title: 'Sault Ste. Marie' },
-  { title: 'St. Catharines' },
-  { title: 'St. Thomas' },
-  { title: 'Stratford' },
-  { title: 'Temiskaming Shores' },
-  { title: 'Thorold' },
-  { title: 'Thunder Bay' },
-  { title: 'Timmins' },
-  { title: 'Toronto' },
-  { title: 'Vaughan' },
-  { title: 'Waterloo' },
-  { title: 'Waterloo' },
-  { title: 'Windsor' },
-  { title: 'Woodstock' },
-
-
+  { title: '', id: 0 },
+  { title: 'Barrie', id: 1 },
+  { title: 'Belleville', id: 2 },
+  { title: 'Brampton', id: 3 },
+  { title: 'Brant', id: 4 },
+  { title: 'Brantford', id: 5 },
+  { title: 'Brockville', id: 6 },
+  { title: 'Burlington', id: 7 },
+  { title: 'Cambridge', id: 8 },
+  { title: 'Cambridge', id: 9 },
+  { title: 'Cornwall', id: 10 },
+  { title: 'Dryden', id: 11 },
+  { title: 'Elliot Lake', id: 12 },
+  { title: 'Greater Sudbury', id: 13 },
+  { title: 'Guelph', id: 14 },
+  { title: 'Haldimand County', id: 15 },
+  { title: 'Hamilton', id: 16 },
+  { title: 'Kawartha Lakes', id: 17 },
+  { title: 'Kenora', id: 18 },
+  { title: 'Kingston', id: 19 },
+  { title: 'Kitchene', id: 20 },
+  { title: 'London', id: 21 },
+  { title: 'Markham', id: 22 },
+  { title: 'Mississauga', id: 23 },
+  { title: 'Niagara', id: 24 },
+  { title: 'Norfolk', id: 25 },
+  { title: 'NorthBay', id: 26 },
+  { title: 'Orillia', id: 27 },
+  { title: 'Oshawa', id: 28 },
+  { title: 'Ottawa', id: 29 },
+  { title: 'Owen Sound', id: 30 },
+  { title: 'Pembroke', id: 31 },
+  { title: 'Peterborough', id: 32 },
+  { title: 'Pickering', id: 33 },
+  { title: 'Port Colborne', id: 34 },
+  { title: 'Prince Edward', id: 35 },
+  { title: 'Quinte West', id: 36 },
+  { title: 'Richmond Hill', id: 37 },
+  { title: 'Sarnia', id: 38 },
+  { title: 'Sault Ste. Marie', id: 39 },
+  { title: 'St. Catharines', id: 40 },
+  { title: 'St. Thomas', id: 41 },
+  { title: 'Stratford', id: 42 },
+  { title: 'Temiskaming Shores', id: 43 },
+  { title: 'Thorold', id: 44 },
+  { title: 'Thunder Bay', id: 45 },
+  { title: 'Timmins', id: 46 },
+  { title: 'Toronto', id: 47 },
+  { title: 'Vaughan', id: 48 },
+  { title: 'Waterloo', id: 49 },
+  { title: 'Waterloo', id: 50 },
+  { title: 'Windsor', id: 51 },
+  { title: 'Woodstock', id: 52 },
 ];
 
 export default PostRidePage;

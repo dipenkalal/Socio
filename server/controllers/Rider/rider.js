@@ -10,7 +10,7 @@ export const postRide = async (req, res) => {
       to,
       date,
       time,
-      riderID,
+      _id,
       price,
       seat,
     } = req.body;
@@ -19,7 +19,7 @@ export const postRide = async (req, res) => {
         to,
         date,
         time,
-        riderID,
+        riderID: _id,
         price,
         seat,
     });
