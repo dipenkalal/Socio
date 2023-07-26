@@ -14,7 +14,7 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import WelcomePage from "screens/general/welcomePage";
 import DashboardPage from "screens/general/dashboardPage";
-import ProfilePage from "screens/general/profilePage";
+import ProfilePage from "screens/auth/profilePage";
 
 function App() {
   const mode = useSelector((state) => state.mode);
@@ -32,7 +32,7 @@ function App() {
     < Route path = "/register" element = { <RegisterPage/> } /> 
     < Route path = "/carpooling" element = { <CarpoolingPage/> } /> 
     < Route path = "/evstation" element = { <EVStationPage/> } /> 
-    < Route path = "/windsortransit" element = { <WinsdorTransitPage/> } /> 
+    < Route path = "/view-all" element = { <WinsdorTransitPage/> } /> 
     < Route path = "/dashboard" element = { <DashboardPage/> } /> 
     < Route path = "/postride" element = { <PostRidePage/> } /> 
     < Route path = "/getride" element = { <GetRidePage/> } />

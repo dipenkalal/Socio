@@ -1,13 +1,16 @@
 import { Box, Typography, useTheme, useMediaQuery, Grid, TextField, Autocomplete, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Navbar from "components/navbar";
+import Navbar from "components/NavBar3";
 import * as React from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
 
 function sleep(delay = 0) {
   return new Promise((resolve) => {
@@ -20,74 +23,43 @@ const GetRidePage = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const navigate = useNavigate();
+  const userid = useSelector((state) => state._id);
+  const [fromCity, setFromCity] = useState('');
+  const [toCity, setToCity] = useState('');
+  const [date, setDate] = useState(null);
 
-  const handleGetRide = () => {
-    // Insert logic to handle login
-    navigate("/viewrides");
+
+  const handleGetRide = async () => {
+    const userId = userid; // Replace this with actual user id
+    const payload = {
+      userId: "64a1d89eb6797c14fcbf68b9",
+      from: fromCity,
+      to: toCity,
+      date: date.format('YYYY-MM-DD') // Assuming 'date' is in dayjs format
+    };
+
+    try {
+      const response = await axios.post('http://localhost:3001/rides/getRides', payload);
+      if (response.status === 200) {
+        console.log(response.data);
+        navigate("/viewrides");  // Assuming you want to navigate after successful API call
+      }
+    } catch (error) {
+      console.error('Error during API call', error);
+    }
   };
-
-  const [openFrom, setOpenFrom] = React.useState(false);
-  const [optionsFrom, setOptionsFrom] = React.useState([]);
-  const loadingFrom = openFrom && optionsFrom.length === 0;
-
-  const [openTo, setOpenTo] = React.useState(false);
-  const [optionsTo, setOptionsTo] = React.useState([]);
-  const loadingTo = openTo && optionsTo.length === 0;
-
-  React.useEffect(() => {
-    let active = true;
-    if (!loadingFrom) {
-      return undefined;
+  const handleCityChange = (event, cityType) => {
+    if (cityType === "from") {
+      setFromCity(event.target.value);
+    } else if (cityType === "to") {
+      setToCity(event.target.value);
     }
-    
-    (async () => {
-      await sleep(1e3); // For demo purposes.
-    
-      if (active) {
-        setOptionsFrom([...citynames]);
-      }
-    })();
-    
-    return () => {
-      active = false;
-    };
-  }, [loadingFrom]);
-
-  React.useEffect(() => {
-    if (!openFrom) {
-      setOptionsFrom([]);
-    }
-  }, [openFrom]);
-
-  React.useEffect(() => {
-    let active = true;
-    if (!loadingTo) {
-      return undefined;
-    }
-    
-    (async () => {
-      await sleep(1e3); // For demo purposes.
-    
-      if (active) {
-        setOptionsTo([...citynames]);
-      }
-    })();
-    
-    return () => {
-      active = false;
-    };
-  }, [loadingTo]);
-
-  React.useEffect(() => {
-    if (!openTo) {
-      setOptionsTo([]);
-    }
-  }, [openTo]);
-
+  }
 
 
   return (
     <Box >
+      <Navbar />
       <Box className="background-container" sx={{ flexGrow: 1 }} >
         <Box
           width="55%"
@@ -106,72 +78,42 @@ const GetRidePage = () => {
           </Typography>
           <Box>
             <Box>
-              <Typography fontWeight="500" variant="h6" sx={{ mt: "1.0rem", mb: "0.7rem" }}>
-                From:
-              </Typography>
-              <Autocomplete
-                id="fromcitynames"
-                open={openFrom}
-                onOpen={() => {
-                  setOpenFrom(true);
+              <TextField
+                select
+                fullWidth
+                label="From City"
+                value={fromCity}
+                onChange={(event) => handleCityChange(event, "from")}
+                variant="outlined"
+                SelectProps={{
+                  native: true,
                 }}
-                onClose={() => {
-                  setOpenFrom(false);
+                sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
+              >
+                {citynames.map((option, index) => (
+                  <option key={index} value={option.title}>
+                    {option.title}
+                  </option>
+                ))}
+              </TextField>
+              <TextField
+                select
+                fullWidth
+                label="To City"
+                value={toCity}
+                onChange={(event) => handleCityChange(event, "to")}
+                variant="outlined"
+                SelectProps={{
+                  native: true,
                 }}
-                isOptionEqualToValue={(option, value) => option.title === value.title}
-                getOptionLabel={(option) => option.title}
-                options={optionsFrom}
-                loading={loadingFrom}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Select City"
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <React.Fragment>
-                          {loadingFrom ? <CircularProgress color="inherit" size={20} /> : null}
-                          {params.InputProps.endAdornment}
-                        </React.Fragment>
-                      ),
-                    }}
-                  />
-                )}
-              />
-            </Box>
-            <Box>
-              <Typography fontWeight="500" variant="h6" sx={{ mt: "1.0rem", mb: "0.7rem" }}>
-                To:
-              </Typography>
-              <Autocomplete
-                id="tocitynames"
-                open={openTo}
-                onOpen={() => {
-                  setOpenTo(true);
-                }}
-                onClose={() => {
-                  setOpenTo(false);
-                }}
-                isOptionEqualToValue={(option, value) => option.title === value.title}
-                getOptionLabel={(option) => option.title}
-                options={optionsTo}
-                loading={loadingTo}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Select City"
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <React.Fragment>
-                          {loadingTo ? <CircularProgress color="inherit" size={20} /> : null}
-                          {params.InputProps.endAdornment}
-                        </React.Fragment>
-                      ),
-                    }}
-                  />
-                )}
-              />
+                sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
+              >
+                {citynames.map((option, index) => (
+                  <option key={index} value={option.title}>
+                    {option.title}
+                  </option>
+                ))}
+              </TextField>
             </Box>
           </Box>
           <Box sx={{ mt: "1.0rem", mb: "0.7rem" }}>
@@ -185,7 +127,7 @@ const GetRidePage = () => {
                 ]}
               >
                 <DemoItem label="Select Ride Date">
-                  <DatePicker defaultValue={dayjs('2023-07-01')} />
+                  <DatePicker defaultValue={dayjs('2023-07-01')} onChange={(newValue) => { setDate(newValue); }} />
                 </DemoItem>
               </DemoContainer>
             </LocalizationProvider>
@@ -220,6 +162,7 @@ const GetRidePage = () => {
 
 //dataset here 
 const citynames = [
+  { title: '' },
   { title: 'Barrie' },
   { title: 'Belleville' },
   { title: 'Brampton' },

@@ -91,46 +91,6 @@ const Navbar = () => {
             <LightMode sx={{ color: dark, fontSize: "25px" }} />
           )}
         </IconButton>
-        {/* <IconButton>
-          <Typography fontWeight="500" variant="h6" >
-          Carpooling
-          <nav>
-            <ul>
-                <li>
-                    <Link to="/carpooling">Book Ride</Link>
-                </li>
-                <li>
-                    <Link to="/evstation">Post Ride</Link>
-                </li>
-                <li>
-                    <Link to="/windsortransit">View Rides</Link>
-                </li>
-            </ul>
-            </nav>
-          </Typography>
-          </IconButton>
-          <IconButton>
-          <Typography fontWeight="500" variant="h6" >
-          EV Station
-          <nav>
-            <ul>
-                <li>
-                    <Link to="/carpooling">Add Station</Link>
-                </li>
-                <li>
-                    <Link to="/evstation">Find Station</Link>
-                </li>
-            </ul>
-            </nav>
-        </Typography>
-          </IconButton>
-          <IconButton>
-          <Typography fontWeight="500" variant="h6" >
-          Windsor Transit
-        </Typography>
-          </IconButton>
-         */}
-
 
 <div>
       <Button
@@ -157,59 +117,6 @@ const Navbar = () => {
         <MenuItem onClick={handleClose}><link to="/viewrides">View Rides</link></MenuItem>
       </Menu>
     </div>
-{/* 
-        <div>
-          <Button onClick={handleCarpoolingClick} sx={{ height: "6ev", width: "10ev", }}>
-            <Typography fontWeight="500" variant="h6">
-              Carpooling
-            </Typography>
-          </Button>
-          <Menu
-            id="carpooling-menu"
-            anchorEl={carpoolingAnchorEl}
-            //   keepMounted
-            open={Boolean(carpoolingAnchorEl)}
-            onClose={handleCarpoolingClose}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-          >
-            <MenuItem onClick={handleCarpoolingClose}>
-              <Link to="/getride">Book Ride</Link>
-            </MenuItem>
-            <MenuItem onClick={handleCarpoolingClose}>
-              <Link to="/postride">Post Ride</Link>
-            </MenuItem>
-            <MenuItem onClick={handleCarpoolingClose}>
-              <Link to="/viewrides">View Rides</Link>
-            </MenuItem>
-          </Menu>
-        </div> */}
-        {/* <div>
-  <Button 
-    onClick={handleCarpoolingClick}
-    endIcon={<KeyboardArrowDownIcon />}
-  >
-    <Typography fontWeight="500" variant="h6">
-      Carpooling
-    </Typography>
-  </Button>
-  <Menu
-    id="carpooling-menu"
-    anchorEl={carpoolingAnchorEl}
-    open={Boolean(carpoolingAnchorEl)}
-    onClose={handleCarpoolingClose}
-  >
-    <MenuItem onClick={handleCarpoolingClose}>
-      <Link to="/bookride">Book Ride</Link>
-    </MenuItem>
-    <MenuItem onClick={handleCarpoolingClose}>
-      <Link to="/postride">Post Ride</Link>
-    </MenuItem>
-    <MenuItem onClick={handleCarpoolingClose}>
-      <Link to="/viewrides">View Rides</Link>
-    </MenuItem>
-  </Menu>
-</div> */}
 
         <div>
           <Button onClick={handleEVStationClick} sx={{ height: "6ev", width: "10ev", }}>
