@@ -1,7 +1,7 @@
 import { Box, Typography, TextField, Button, useTheme, useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Navbar from "components/navbar";
+import Navbar from "components/NavBar";
 //import DraftsOutlinedIcon from '@material-ui/icons/DraftsOutlined';
 
 
@@ -19,7 +19,7 @@ const PostRidePage = () => {
 
   return (
     <Box >
-      {/* <Navbar /> */}
+       <Navbar />
       <Box className="background-container" >
         <Box
           width="55%"

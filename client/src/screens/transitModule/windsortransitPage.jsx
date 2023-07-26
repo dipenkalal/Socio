@@ -1,6 +1,6 @@
 import { Box, useTheme, useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Navbar from "components/NavBar3";
+import Navbar from "components/NavBar";
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 

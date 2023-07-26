@@ -1,7 +1,7 @@
-import { Box, Typography, Button, useTheme, useMediaQuery,Grid } from "@mui/material";
+import { Box, Typography, Button, useTheme, useMediaQuery } from "@mui/material";
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import Navbar from "components/NavBar3";
+import Navbar from "components/NavBar";
 
 const DashboardPage = () => {
     const theme = useTheme();
