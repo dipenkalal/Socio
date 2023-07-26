@@ -57,7 +57,8 @@ const App = () => {
         <Box sx={{
               display: 'flex', 
               flexWrap: 'wrap', 
-              justifyContent: 'left', 
+              alignItems:'center',
+              justifyContent: 'space-between', 
               p: 1,
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
