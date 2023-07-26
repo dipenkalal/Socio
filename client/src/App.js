@@ -13,7 +13,6 @@ import WelcomePage from "screens/general/welcomePage";
 import DashboardPage from "screens/general/dashboardPage";
 import ProfilePage from "screens/auth/profilePage";
 
-import CarpoolingPage from "screens/carpoolingModule/carpoolingPage";
 //passenger
 import SearchRidePage from "screens/carpoolingModule/passenger/searchridePage";
 import ViewBookedRide from "screens/carpoolingModule/passenger/viewbookedridePage";
@@ -22,9 +21,12 @@ import ViewBookedRide from "screens/carpoolingModule/passenger/viewbookedridePag
 import PostRidePage from "screens/carpoolingModule/rider/postridePage";
 import ViewPostedRide from "screens/carpoolingModule/rider/viewpostedridePage";
 
-import EVStationPage from "screens/evChargingStationModule/evstationPage";
 
-import WinsdorTransitPage from "screens/transitModule/windsortransitPage";
+import EVAddStationPage from "screens/evChargingStationModule/addstationPage";
+import EVViewStationPage from "screens/evChargingStationModule/viewallstationPage"
+
+import AllRoutesTransit from "screens/transitModule/allroutesPage";
+import SearchNearbyStation from "screens/transitModule/searchnearbystationPage"
 
 
 function App() {
@@ -45,7 +47,6 @@ function App() {
     < Route path = "/profile" element = { <ProfilePage/> } />
 
 
-    < Route path = "/carpooling" element = { <CarpoolingPage/> } /> 
 {/* passenger */}
     < Route path = "/searchride" element = { <SearchRidePage/> } />
     < Route path = "/viewbookedride" element = { <ViewBookedRide/> } />
@@ -54,10 +55,12 @@ function App() {
     < Route path = "/viewpostedride" element = { <ViewPostedRide/> } /> 
 
     
-    < Route path = "/evstation" element = { <EVStationPage/> } /> 
+    < Route path = "/addstation" element = { <EVAddStationPage/> } /> 
+    < Route path = "/viewallstation" element = { <EVViewStationPage/> } />
     
     
-    < Route path = "/view-all" element = { <WinsdorTransitPage/> } /> 
+    < Route path = "/allroutes" element = { <AllRoutesTransit/> } /> 
+    < Route path = "/searchnearbystation" element = { <SearchNearbyStation/> } /> 
     
     {
        <Route
