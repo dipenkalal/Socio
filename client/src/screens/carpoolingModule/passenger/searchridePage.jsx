@@ -1,71 +1,84 @@
-import { Box, Typography, useTheme, useMediaQuery, Grid, TextField, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { Box, Typography, TextField, Button, useTheme, useMediaQuery, Autocomplete, Select, MenuItem, FormControl, InputLabel, Card, CardContent, CardActions, Grid } from "@mui/material";
+import { useState } from "react";
 import Navbar from "components/NavBar";
 import * as React from 'react';
-import axios from 'axios';
-import dayjs from 'dayjs';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
+const SearchRidePage = () => {
 
-
-function sleep(delay = 0) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
-}
-
-
-const GetRidePage = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
-  const navigate = useNavigate();
+
+  const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const userid = useSelector((state) => state._id);
-  const [fromCity, setFromCity] = useState('');
-  const [toCity, setToCity] = useState('');
-  const [date, setDate] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
 
 
-  const handleGetRide = async () => {
-    // const userId = userid; // Replace this with actual user id
-    const payload = {
-      from: fromCity,
-      to: toCity,
-      date: date.format('YYYY-MM-DD') // Assuming 'date' is in dayjs format
-    };
-
-    try {
-      const response = await axios.post('http://localhost:3001/rides/getRides', payload);
-      if (response.status === 200) {
-        console.log(response.data);
-        navigate("/getride");  // Assuming you want to navigate after successful API call
-      }
-    } catch (error) {
-      console.error('Error during API call', error);
-    }
+  const [From, setCityFrom] = useState('');
+  const [To, setCityTo] = useState('');
+  const [Date, setDate] = useState('');
+  const [rides, setRides] = useState([]);
+  const searchRide = () => {
+    fetch("http://localhost:3001/rides/getRides", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        userID: user._id,
+        from: From,
+        to: To,
+        date: Date,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setRides(data.data);
+        console.log(data.data); // Accessing the "data" property of the response
+      })
+      .catch(error => {
+        console.error("Error fetching rides:", error);
+      });
   };
-  const handleCityChange = (event, cityType) => {
-    if (cityType === "from") {
-      setFromCity(event.target.value);
-    } else if (cityType === "to") {
-      setToCity(event.target.value);
-    }
-  }
 
+  const bookRide = (rideID) => {
+    console.log("Booking ride with ID:", rideID); // Log the ride ID
+    fetch(
+      "http://localhost:3001/rides/bookRides",
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userid: user._id,
+          rideID: rideID,
+        }),
+      }
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error('Server response: ' + response.statusText);
+      }
+      else {
+        alert("Your Ride is booked successfully!");
+        console.log(user._id,rideID)
+        navigate('/passenger/viewbookedride');
+      }
+    }).catch((error) => {
+      setErrorMessage(error);  // Show error message on frontend
+    });
+  };
 
   return (
-    <Box >
+    <Box>
       <Navbar />
-      <Box className="background-container" sx={{ flexGrow: 1 }} >
-        <Box
-          width="55%"
-          p="1rem 6%"
-          textAlign="center">
-        </Box>
+      <Box className="background-container" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
+        <Box sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }} />
         <Box
           width={isNonMobileScreens ? "50%" : "93%"}
           p="2rem"
@@ -74,149 +87,159 @@ const GetRidePage = () => {
           backgroundColor={theme.palette.background.alt}
         >
           <Typography fontWeight="800" variant="h3" sx={{ mb: "1.5rem" }}>
-            Get list of available rides
+            Search for a ride 😃
           </Typography>
-          <Box>
-            <Box>
-              <TextField
-                select
-                fullWidth
-                label="From City"
-                value={fromCity}
-                onChange={(event) => handleCityChange(event, "from")}
-                variant="outlined"
-                SelectProps={{
-                  native: true,
-                }}
-                sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
-              >
-                {citynames.map((option, index) => (
-                  <option key={index} value={option.title}>
-                    {option.title}
-                  </option>
-                ))}
-              </TextField>
-              <TextField
-                select
-                fullWidth
-                label="To City"
-                value={toCity}
-                onChange={(event) => handleCityChange(event, "to")}
-                variant="outlined"
-                SelectProps={{
-                  native: true,
-                }}
-                sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
-              >
-                {citynames.map((option, index) => (
-                  <option key={index} value={option.title}>
-                    {option.title}
-                  </option>
-                ))}
-              </TextField>
-            </Box>
-          </Box>
-          <Box sx={{ mt: "1.0rem", mb: "0.7rem" }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs} >
-              <DemoContainer
-                components={[
-                  'DatePicker',
-                  'MobileDatePicker',
-                  'DesktopDatePicker',
-                  'StaticDatePicker',
-                ]}
-              >
-                <DemoItem label="Select Ride Date">
-                  <DatePicker defaultValue={dayjs('2023-07-01')} onChange={(newValue) => { setDate(newValue); }} />
-                </DemoItem>
-              </DemoContainer>
-            </LocalizationProvider>
 
-          </Box>
+          <FormControl fullWidth sx={{ mt: "1rem", mb: "1.0rem" }}>
+            <InputLabel htmlFor="from-city">Where From?</InputLabel>
+            <Select sx={{ mt: "1rem", mb: "1.0rem" }}
+              value={From}
+              onChange={(e) => setCityFrom(e.target.value)}
+              id="from-city"
+            >
+              {citynames.map((city, index) => (
+                <MenuItem key={index} value={city}>
+                  {city}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-          <Grid container spacing={2}>
-            <Grid item xs={4}>
-              <item>
+          <FormControl fullWidth sx={{ mt: "1rem", mb: "1.0rem" }}>
+            <InputLabel htmlFor="to-city">Where To?</InputLabel>
+            <Select sx={{ mt: "1rem", mb: "1.0rem" }}
+              value={To}
+              onChange={(e) => setCityTo(e.target.value)}
+              id="to-city"
+            >
+              {citynames.map((city, index) => (
+                <MenuItem key={index} value={city}>
+                  {city}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <TextField
+            label="Date"
+            type="Date"
+            fullWidth
+            required
+            sx={{ mt: "1rem" }}
+            onChange={(e) => setDate(e.target.value)}
+            value={Date}
+          />
+
+          <Button
+            type="button"
+            variant="contained"
+            color="primary"
+            size="large"
+            onClick={searchRide}
+            sx={{ mt: "1rem" }}
+          >
+            Search Ride
+          </Button>
+        </Box>
+        <Box sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }} />
+        <Box
+          width={isNonMobileScreens ? "50%" : "93%"}
+          p="2rem"
+          m="2rem auto"
+          borderRadius="1.5rem"
+          backgroundColor={theme.palette.background.alt}
+        >
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold', color: 'text.primary' }}>Search Results:</Typography>
+          {rides.map((ride, index) => (
+            <Card key={index} sx={{ mt: 2, boxShadow: 3, borderRadius: 2, backgroundColor: 'grey.100' }}>
+              <CardContent>
+                <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: 'text.secondary', mb: 1 }} gutterBottom>From: {ride.from}</Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: 'text.secondary', mb: 1 }} gutterBottom>To: {ride.to}</Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: 'text.secondary', mb: 1 }} gutterBottom>Date: {ride.date}</Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: 'text.secondary', mb: 1 }} gutterBottom>Time: {ride.time}</Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: 'text.secondary', mb: 1 }} gutterBottom>Price: {ride.price}</Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: 'text.secondary', mb: 1 }} gutterBottom>Seats Available: {ride.seat}</Typography>
+              </CardContent>
+              <CardActions>
                 <Button
-                  type="button"
+                  size="medium"
                   variant="contained"
                   color="primary"
-                  size="large"
-                  onClick={handleGetRide}
-                  sx={{ mt: "1.5rem", height: "6ev", width: "10ev", backgroundColor: "#A2FB90", color: "#000000", fontWeight: "bold", fontSize: "15px" }} >
-                  Search Ride
+                  onClick={() => bookRide(ride._id)}
+                  sx={{
+                    ml: "1rem",
+                    mb: "1rem",
+                    fontWeight: 'medium',
+                    '&:focus': {
+                      fontWeight: 'bold',
+                      backgroundColor: 'secondary.main',
+                    },
+                  }}
+                >
+                  Book
                 </Button>
-              </item>
-            </Grid>
-          </Grid>
+              </CardActions>
+            </Card>
+          ))}
 
         </Box>
-
-
-        <Box p="2rem">
-        </Box>
+        <Box sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }} />
       </Box>
     </Box>
   );
 };
 
-//dataset here 
 const citynames = [
-  { title: '' },
-  { title: 'Barrie' },
-  { title: 'Belleville' },
-  { title: 'Brampton' },
-  { title: 'Brant' },
-  { title: 'Brantford' },
-  { title: 'Brockville' },
-  { title: 'Burlington' },
-  { title: 'Cambridge' },
-  { title: 'Cambridge' },
-  { title: 'Cornwall' },
-  { title: 'Dryden' },
-  { title: 'Elliot Lake' },
-  { title: 'Greater Sudbury' },
-  { title: 'Guelph' },
-  { title: 'Haldimand County' },
-  { title: 'Hamilton' },
-  { title: 'Kawartha Lakes' },
-  { title: 'Kenora' },
-  { title: 'Kingston' },
-  { title: 'Kitchene' },
-  { title: 'London' },
-  { title: 'Markham' },
-  { title: 'Mississauga' },
-  { title: 'Niagara' },
-  { title: 'Norfolk' },
-  { title: 'NorthBay' },
-  { title: 'Orillia' },
-  { title: 'Oshawa' },
-  { title: 'Ottawa' },
-  { title: 'Owen Sound' },
-  { title: 'Pembroke' },
-  { title: 'Peterborough' },
-  { title: 'Pickering' },
-  { title: 'Port Colborne' },
-  { title: 'Prince Edward' },
-  { title: 'Quinte West' },
-  { title: 'Richmond Hill' },
-  { title: 'Sarnia' },
-  { title: 'Sault Ste. Marie' },
-  { title: 'St. Catharines' },
-  { title: 'St. Thomas' },
-  { title: 'Stratford' },
-  { title: 'Temiskaming Shores' },
-  { title: 'Thorold' },
-  { title: 'Thunder Bay' },
-  { title: 'Timmins' },
-  { title: 'Toronto' },
-  { title: 'Vaughan' },
-  { title: 'Waterloo' },
-  { title: 'Waterloo' },
-  { title: 'Windsor' },
-  { title: 'Woodstock' },
-
-
+  'Barrie',
+  'Belleville',
+  'Brampton',
+  'Brant',
+  'Brantford',
+  'Brockville',
+  'Burlington',
+  'Cambridge',
+  'Cornwall',
+  'Dryden',
+  'Elliot Lake',
+  'Greater Sudbury',
+  'Guelph',
+  'Haldimand County',
+  'Hamilton',
+  'Kawartha Lakes',
+  'Kenora',
+  'Kingston',
+  'Kitchener',
+  'London',
+  'Markham',
+  'Mississauga',
+  'Niagara',
+  'Norfolk',
+  'NorthBay',
+  'Orillia',
+  'Oshawa',
+  'Ottawa',
+  'Owen Sound',
+  'Pembroke',
+  'Peterborough',
+  'Pickering',
+  'Port Colborne',
+  'Prince Edward',
+  'Quinte West',
+  'Richmond Hill',
+  'Sarnia',
+  'Sault Ste. Marie',
+  'St. Catharines',
+  'St. Thomas',
+  'Stratford',
+  'Temiskaming Shores',
+  'Thorold',
+  'Thunder Bay',
+  'Timmins',
+  'Toronto',
+  'Vaughan',
+  'Waterloo',
+  'Windsor',
+  'Woodstock',
 ];
 
-export default GetRidePage;
+export default SearchRidePage;

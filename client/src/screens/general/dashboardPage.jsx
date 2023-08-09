@@ -8,11 +8,14 @@ import {
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "components/NavBar";
+import { useSelector } from 'react-redux';
+
 
 const DashboardPage = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
 
   //   Redirection of Pages
   const handleGetRide = () => {
@@ -37,11 +40,17 @@ const DashboardPage = () => {
       <Navbar />
       <Box className="background-container">
         <Box width="55%" p="1rem 6%" textAlign="left">
-          <img
+          {/* <img
             src="/assets/GreenRouteLogo.png"
             alt="GreenRoute Logo"
             height="125px"
-          />
+          /> */}
+          <Typography variant="h2">
+            Welcome,
+          </Typography>
+          <Typography variant="h1">
+            {user.firstName} {user.lastName}!
+          </Typography>
         </Box>
         <Box p="4rem"></Box>
         {/* // right column */}
@@ -139,20 +148,6 @@ const DashboardPage = () => {
                 justifyContent="space-between"
                 style={{ height: "100%" }}
               >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={{
-                    margin: "0.5rem",
-                    backgroundColor: "#C2E0D0",
-                    height: "40px",
-                    width: "150px",
-                    fontWeight: "bold",
-                  }}
-                  onClick={handleAddStation}
-                >
-                  Add Station
-                </Button>
                 <Button
                   variant="contained"
                   color="primary"

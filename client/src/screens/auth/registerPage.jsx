@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Box, Button, TextField, useMediaQuery, Typography, useTheme } from "@mui/material";
+import { Box, Button, TextField, useMediaQuery, Typography, useTheme, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 
 
@@ -15,7 +15,8 @@ const RegisterForm = () => {
   const [Password, setPassword] = useState('')
   const [ConfirmPassword, setConfirmPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null);
-  const error=[];
+  const error = [];
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
 
   function registerUser() {
@@ -35,12 +36,14 @@ const RegisterForm = () => {
     ).then((response) => {
       if (!response.ok) {
         throw new Error('Server response: ' + response.statusText);
-      } 
-      navigate("/login");
+      }
+      // Show the success dialog when registration is successful
+      setShowSuccessDialog(true);
     }).catch((error) => {
-      setErrorMessage('Email or Phone Already exists!');  // Show error message on frontend
+      alert("Email or Phone Already exists!");  // Show error message on frontend
     });
   }
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -69,10 +72,10 @@ const RegisterForm = () => {
             <Box>
               <form className="registration" onSubmit={(e) => handleSubmit(e)}>
                 {/* New error message display */}
-                <Box  sx={{mt:"1rem", mb:"1rem",color: "#FF0000", fontWeight: "normal", fontSize: "15px"}}>
-                {errorMessage && <div className="error-message">{errorMessage}</div>}
+                <Box sx={{ mt: "1rem", mb: "1rem", color: "#FF0000", fontWeight: "normal", fontSize: "15px" }}>
+                  {errorMessage && <div className="error-message">{errorMessage}</div>}
                 </Box>
-                
+
 
                 <TextField
                   label="First Name"
@@ -146,7 +149,7 @@ const RegisterForm = () => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   value={ConfirmPassword}
                 />
-                 {error.confirmPassword && <span className='err'>{error.confirmPassword}</span>}
+                {error.confirmPassword && <span className='err'>{error.confirmPassword}</span>}
 
 
                 <input
@@ -182,6 +185,23 @@ const RegisterForm = () => {
         </Box>
         <Box p="2rem"></Box>
       </Box>
+      <Dialog open={showSuccessDialog} onClose={() => setShowSuccessDialog(false)}>
+        <DialogTitle>Registration Successful</DialogTitle>
+        <DialogContent>
+          <Typography>Your registration was successful! You can now log in.</Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ mt: "1rem"}}
+            onClick={() => {
+              setShowSuccessDialog(false); // Close the dialog
+              navigate("/login"); // Navigate to the login page
+            }}
+          >
+            Login
+          </Button>
+        </DialogContent>
+      </Dialog>
     </Box>
 
   );

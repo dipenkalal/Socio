@@ -10,7 +10,7 @@ export const postRide = async (req, res) => {
       to,
       date,
       time,
-      _id,
+      riderID,
       price,
       seat,
     } = req.body;
@@ -19,7 +19,7 @@ export const postRide = async (req, res) => {
         to,
         date,
         time,
-        riderID: _id,
+        riderID,
         price,
         seat,
     });
@@ -71,7 +71,7 @@ export const getMyPostedRides = async (req, res) => {
   try {
     const { id } = req.params;
     const rides = await Ride.find({riderID:id});
-    res.status(200).json(rides);
+    res.status(200).json({"rides":rides});
   } catch (err) {
     
     res.status(404).json({ message: err.message });
@@ -85,7 +85,7 @@ export const deleteRide = async (req, res) => {
     res.status(200).json(rides);
   } catch (err) {
     res.status(404).json({ message: err.message });
-  }
+}
 };
 
 export const getMyPassengers = async (req, res) => {

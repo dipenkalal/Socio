@@ -7,45 +7,54 @@ import Navbar from 'components/NavBar';
 
 const ProfilePage = () => {
 
+    const [isUpdate, setIsUpdate] = useState(false);
+
     const theme = useTheme();
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
     const navigate = useNavigate();
     const user = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const userid = useSelector((state) => state._id);
+
+    const [UserID, setuserid] = useState(user?.userid || userid);
+    const [firstName, setFirstName] = useState(user?.firstName || firstName);
+    const [lastName, setLastName] = useState(user?.lastName || lastName);
+    const [email, setEmail] = useState(user?.email || email);
+    const [mobile, setMobile] = useState(user?.mobile || mobile);
+    const [password, setPassword] = useState(user?.password || password);
+
     useEffect(() => {
         if (!user) {
             navigate('/welcome');
         }
     }, [user, navigate]);
-
-    const [firstName, setFirstName] = useState(user?.firstName || '');
-    const [lastName, setLastName] = useState(user?.lastName || '');
-    const [age, setAge] = useState(user?.age || '');
-    const [email, setEmail] = useState(user?.email || '');
-    const [mobile, setMobile] = useState(user?.mobile || '');
-
-    const [gender, setGender] = useState('');
-
-    const handleChange = (event) => {
-        setGender(event.target.value);
-    }
-
+    
     const handleUpdateProfile = async () => {
         const updatedUser = {
+            UserID ,
             firstName,
             lastName,
-            gender,
-            age,
             email,
             mobile,
+            password,
         };
 
-        await axios.put(`http://localhost:3001/users/${userid}`, updatedUser, {
-            headers: { Authorization: `Bearer ${token}` }
+        await axios.post(`http://localhost:3001/users/updateProfile`, updatedUser, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            }
         })
             .then(response => {
-                console.log(response.data);
+                if (response.updatedUser) {
+                    setFirstName(response.updatedUser.firstName);
+                    setLastName(response.updatedUser.lastName);
+                    setEmail(response.updatedUser.email);
+                    setIsUpdate(true);
+                } else {
+                    console.error('Response data is null');
+                }
+
             })
             .catch(error => {
                 console.error('There was an error updating the profile:', error);
@@ -65,9 +74,6 @@ const ProfilePage = () => {
                     backgroundColor={theme.palette.background.alt}
                     display="flex"
                     flexDirection="column" >
-                    {/* //     alignItems="center"
-                //     justifyContent="center"
-                // > */}
                     <Typography fontWeight="500" variant="h4" sx={{ mb: "1.5rem" }} textAlign={"center"}>
                         Update your details here...
                     </Typography>
@@ -89,6 +95,15 @@ const ProfilePage = () => {
                             required
                             fullWidth
                             id="outlined-required"
+                            label="UserID"
+                            value={userid} // Use state instead of `defaultValue`
+                            onChange={(e) => setuserid(e.target.value)} // Update state on change
+                            sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
+                        />
+                        <TextField
+                            required
+                            fullWidth
+                            id="outlined-required"
                             label="First Name"
                             value={firstName} // Use state instead of `defaultValue`
                             onChange={(e) => setFirstName(e.target.value)} // Update state on change
@@ -103,35 +118,6 @@ const ProfilePage = () => {
                             onChange={(e) => setLastName(e.target.value)} // Update state on change
                             sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
                         />
-                    </Box>
-                    <Box display="flex" >
-                        <TextField
-                            required
-                            fullWidth
-                            id="outlined-required"
-                            label="Age"
-                            value={age} // Use state instead of `defaultValue`
-                            onChange={(e) => setAge(e.target.value)} // Update state on change
-                            sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
-                        />
-
-                        <TextField
-                            select
-                            fullWidth
-                            label="Gender"
-                            value={gender}
-                            onChange={handleChange}
-                            variant="outlined"
-                            SelectProps={{
-                                native: true,
-                            }}
-                            sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
-                        >
-                            <option value="Gender"></option>
-                            <option value={'Male'}>Male</option>
-                            <option value={'Female'}>Female</option>
-                            <option value={'Other'}>Other</option>
-                        </TextField>
                     </Box>
 
                     <TextField
@@ -152,6 +138,14 @@ const ProfilePage = () => {
                         onChange={(e) => setMobile(e.target.value)} // Update state on change
                         sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
                     />
+                    <TextField
+                        required
+                        fullWidth
+                        id="outlined-required"
+                        label="Password" // Use state instead of `defaultValue`
+                        onChange={(e) => setPassword(e.target.value)} // Update state on change
+                        sx={{ mt: "1rem", mb: "1.0rem", mr: "1.0rem" }}
+                    />
                     {/* Register Button */}
                     <Button
                         sx={{ mt: "1rem", height: "6ev", width: "10ev", backgroundColor: "#A2FB90", color: "#000000", fontWeight: "normal", fontSize: "12px" }}
@@ -159,7 +153,13 @@ const ProfilePage = () => {
                         variant="contained"
                         color="primary"
                         size="medium"
-                        onClick={handleUpdateProfile}
+                        onClick={() => {
+                            setIsUpdate(true);
+                            handleUpdateProfile();
+                        }
+
+
+                        }
                     // sx={{ mt: "2rem" }} // Adding top margin for spacing
                     >
                         Update Profile
@@ -175,3 +175,110 @@ const ProfilePage = () => {
 }
 
 export default ProfilePage;
+
+
+// import axios from 'axios';
+// import React, { useEffect, useState } from 'react';
+// import { Box, Typography, useTheme, useMediaQuery, TextField, Avatar, Button } from "@mui/material";
+// import { useNavigate } from "react-router-dom";
+// import { useSelector } from 'react-redux';
+// import Navbar from 'components/NavBar';
+
+// const ProfileUpdate = () => {
+//   const userId = useSelector((state) => state.user._id); // Assuming user ID is stored in Redux state
+//   const [profile, setProfile] = useState({
+//     firstName: '',
+//     lastName: '',
+//     mobile: '',
+//     email: '',
+//     password: ''
+//   });
+//       const theme = useTheme();
+//     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
+//     const navigate = useNavigate();
+//     const user = useSelector((state) => state.user);
+//     const token = useSelector((state) => state.token);
+//     const userid = useSelector((state) => state._id);
+
+//   useEffect(() => {
+//     // axios.get(`http://localhost:3001/users/${userId}`, setProfile, {
+//     //         headers: {
+//     //             'Content-Type': 'application/json',
+//     //             Authorization: `Bearer ${token}`,
+//     //         }
+//     //     })
+//     // Fetch the current user profile when the component mounts
+//     axios.get(`http://localhost:3001/users/${userId}`, {
+
+//     headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${token}`,
+//     }}
+    
+//   )
+//       .then((response) => {
+//         const { firstName, lastName, mobile, email } = response.data;
+//         setProfile({ firstName, lastName, mobile, email, password: '' });
+//       })
+//       .catch((error) => {
+//         console.error('Error fetching user profile:', error);
+//       });
+//   }, [userId]);
+
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     setProfile((prevProfile) => ({ ...prevProfile, [name]: value }));
+//   };
+
+//   const handleUpdateProfile = () => {
+//     axios.post('http://localhost:3001/users/updateProfile', { userId, ...profile })
+//       .then((response) => {
+//         console.log('Profile updated successfully:', response.data);
+//         // You may want to navigate to another page or show a success message
+//       })
+//       .catch((error) => {
+//         console.error('Error updating profile:', error);
+//         // You may want to show an error message
+//       });
+//   };
+
+//   return (
+//     <div>
+//       <Typography variant="h4">Update Profile</Typography>
+//       <TextField
+//         name="firstName"
+//         label="First Name"
+//         value={profile.firstName}
+//         onChange={handleInputChange}
+//       />
+//       <TextField
+//         name="lastName"
+//         label="Last Name"
+//         value={profile.lastName}
+//         onChange={handleInputChange}
+//       />
+//       <TextField
+//         name="mobile"
+//         label="Mobile"
+//         value={profile.mobile}
+//         onChange={handleInputChange}
+//       />
+//       <TextField
+//         name="email"
+//         label="Email"
+//         value={profile.email}
+//         onChange={handleInputChange}
+//       />
+//       <TextField
+//         name="password"
+//         label="Password"
+//         type="password"
+//         value={profile.password}
+//         onChange={handleInputChange}
+//       />
+//       <Button onClick={handleUpdateProfile}>Update Profile</Button>
+//     </div>
+//   );
+// };
+
+// export default ProfileUpdate;

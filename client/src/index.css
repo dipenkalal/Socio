@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;800&family=Share&display=swap');
 
-html,
-body,
+html, body, * {
+  overflow: visible !important; 
+}
 #root,
 .app {
   height: 100%;
@@ -29,7 +30,7 @@ body,
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  min-height: 88.2vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   background-blend-mode: overlay;
@@ -41,7 +42,7 @@ body,
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  min-height: 88.2vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   background-blend-mode: overlay;
@@ -185,3 +186,13 @@ li:hover {
   text-decoration: none;
   display: block;
 }
+.success-animation {
+  animation: fadeInOut 2s;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+

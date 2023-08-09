@@ -10,6 +10,7 @@ import {
     FormControl,
     useTheme,
     useMediaQuery,
+    Button
 } from "@mui/material";
 import {
     DarkMode,
@@ -22,6 +23,7 @@ import { setMode, setLogout } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 import Dropdown from "./DropDown";
+import { fireEvent } from "@testing-library/react";
 
 const Navbar = () => {
     const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -37,41 +39,65 @@ const Navbar = () => {
     const primaryLight = theme.palette.primary.light;
     const alt = theme.palette.background.alt;
 
+
     const fullName = `${user?.firstName}`;
-    
+
     useEffect(() => {
         if (!user) {
             navigate('/welcome');
         }
     }, [user, navigate]);
-    
+
     const carpoolingItems = [
-        { name: 'Passenger',
-        subItems: [
-            { name: '-Book Ride', to: '/passenger/searchride' },
-            { name: '-View Booked Rides', to: '/passenger/viewbookedride' },
-          ],},
-        { name: 'Rider', 
-        subItems: [
-            { name: '-Post Ride', to: '/rider/postride' },
-            { name: '-View Posted Rides', to: '/rider/viewpostedride' },
-          ],},
+        {
+            name: 'Passenger',
+            subItems: [
+                { name: '-Book Ride', to: '/passenger/searchride' },
+                { name: '-View Booked Rides', to: '/passenger/viewbookedride' },
+            ],
+        },
+        {
+            name: 'Rider',
+            subItems: [
+                { name: '-Post Ride', to: '/rider/postride' },
+                { name: '-View Posted Rides', to: '/rider/viewpostedride' },
+            ],
+        },
     ];
     const evChargingStationItems = [
         { name: 'Find a Station', to: '/viewallstation' },
-        { name: 'Add a Station', to: '/admin/addstation' },
+        // { name: 'Add a Station', to: '/admin/addstation' },
     ];
     const windsorTerminalItems = [
         { name: 'Find Bus', to: '/transit/searchnearbystation' },
         { name: 'View All', to: '/transit/allroutes' },
     ];
     const userProfileItems = [
-        { name: 'Profile', to: '/' },
-        { name: 'Settings', to: '/' },
-        { name: 'Lougout', to: '/' },
+        { name: 'Profile', to: '/profile' },
+        { name: 'Logout', to: '/' },
     ];
+    const [menuOpen, setMenuOpen] = useState(false);
 
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
 
+    const logout = () => {
+        alert("Logged out successfully!");
+        localStorage.removeItem('token');
+        dispatch(setLogout());
+        setMenuOpen(false); // Close the menu after logging out
+    };
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+    
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
 
 
     return (
@@ -100,8 +126,9 @@ const Navbar = () => {
                         <Dropdown menuItems={carpoolingItems} label="Carpooling" />
                         <Dropdown menuItems={evChargingStationItems} label="EV Charging Station" />
                         <Dropdown menuItems={windsorTerminalItems} label="Windsor Transit" />
+                        <Dropdown menuItems={userProfileItems} label={fullName} />
                     </div>
-                    <FormControl variant="standard" value={fullName}>
+                    {/* <FormControl variant="standard" value={fullName}>
                         <Select
                             value={fullName}
                             sx={{
@@ -122,9 +149,45 @@ const Navbar = () => {
                             <MenuItem value={fullName}>
                                 <Typography>{fullName}</Typography>
                             </MenuItem>
+                            <MenuItem value={logout}>
+                                <Typography>Logout</Typography>
+                            </MenuItem>
 
                         </Select>
-                    </FormControl>
+                    </FormControl> */}
+                    <div>
+  {/* <Button onClick={toggleMenu} variant="outlined" color="primary">
+    {fullName}
+  </Button> */}
+  {/* {menuOpen && (
+    <Box
+      sx={{
+        position: 'absolute',
+        right: 0,
+        top: '100%',
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid',
+        borderColor: theme.palette.divider,
+        borderRadius: '4px',
+        boxShadow: '0 3px 5px rgba(0, 0, 0, 0.12)',
+        zIndex: 10,
+        overflow: 'hidden', // To apply border radius to MenuItems
+      }}
+    >
+      <MenuItem onClick={handleClose}>
+        <Typography variant="body1" color="textPrimary">
+          {fullName}
+        </Typography>
+      </MenuItem>
+      <MenuItem onClick={logout}>
+        <Typography variant="body1" color="textPrimary">
+          Logout
+        </Typography>
+      </MenuItem>
+    </Box> */}
+  {/* )} */}
+</div>
+
                 </FlexBetween>
             ) : (
                 <IconButton
@@ -163,17 +226,7 @@ const Navbar = () => {
                         alignItems="center"
                         gap="3rem"
                     >
-                        <IconButton
-                            onClick={() => dispatch(setMode())}
-                            sx={{ fontSize: "25px" }}
-                        >
-                            {theme.palette.mode === "dark" ? (
-                                <DarkMode sx={{ fontSize: "25px" }} />
-                            ) : (
-                                <LightMode sx={{ color: dark, fontSize: "25px" }} />
-                            )}
-                        </IconButton>
-                        <div className="button-container">
+                        <div className="button-container" >
                             <Dropdown menuItems={carpoolingItems} label="Carpooling" />
                             <Dropdown menuItems={evChargingStationItems} label="EV Charging Station" />
                             <Dropdown menuItems={windsorTerminalItems} label="Windsor Transit" />

@@ -1,9 +1,4 @@
 import Ride from "../../models/Rides.js";
-import User from "../../models/User.js";
-
-/* REGISTER USER */
-
-
 export const getRides = async (req, res) => {
     try {
     //   const { userId } = req.params;
@@ -13,8 +8,8 @@ export const getRides = async (req, res) => {
         to,
         date,
       } = req.body;
-      const rides = await Ride.find({from: from, to: to, date:date, riderID: {$ne: userId}, });
-      res.status(200).json(rides);
+      const rides = await Ride.find({from: from, to: to });
+      res.status(200).json({data:rides});
     } catch (err) {
       res.status(404).json({ message: err.message });
     }
@@ -90,8 +85,8 @@ export const getRides = async (req, res) => {
       // const rides = user.rides; 
     const rideDetails = await Ride.find({ passengers: { $in: id },  },{createdAt:0,updatedAt:0, __v:0,passengers:0 });
 
-      res.status(200).json(rideDetails);
+      res.status(200).json({"rides":rideDetails});
     } catch (err) {
       res.status(404).json({ message: err.message });
-    }
-  };
+}
+};

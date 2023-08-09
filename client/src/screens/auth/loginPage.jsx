@@ -1,4 +1,4 @@
-import { Box, Typography, TextField, Button, useTheme, useMediaQuery } from "@mui/material";
+import { Box, Typography, TextField, Button, useTheme, useMediaQuery, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -9,40 +9,41 @@ const LoginPage = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const navigate = useNavigate();
-  const [Email, setEmail] = useState('')
-  const [Password, setPassword] = useState('')
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
   const loginUser = async () => {
     const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-          email: Email,
-          password: Password,
-    }),
+        email: Email,
+        password: Password,
+      }),
     });
     const loggedIn = await loggedInResponse.json();
     if (loggedIn) {
-      dispatch(
-        setLogin({
-          user: loggedIn.user,
-          token: loggedIn.token,
-        })
-      );
-      navigate("/dashboard");
+      setShowSuccessDialog(true); // Show the dialog
+      setTimeout(() => {
+        dispatch(
+          setLogin({
+            user: loggedIn.user,
+            token: loggedIn.token,
+          })
+        );
+        navigate("/dashboard");
+      }, 2000); // Navigate after 2 seconds
     }
   };
 
-
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     loginUser();
-    console.log(Email, Password)
-  }
-
-
+    console.log(Email, Password);
+  };
 
   return (
     <Box className="background-container">
@@ -66,9 +67,9 @@ const LoginPage = () => {
         <Typography fontWeight="400" variant="h4" sx={{ mb: "1rem" }}>
           Login Page
         </Typography>
-        <Box  sx={{mt:"1rem", mb:"1rem",color: "#FF0000", fontWeight: "normal", fontSize: "15px"}}>
-                {errorMessage && <div className="error-message">{errorMessage}</div>}
-                </Box>
+        <Box sx={{ mt: "1rem", mb: "1rem", color: "#FF0000", fontWeight: "normal", fontSize: "15px" }}>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
+        </Box>
         <Box>
           <form className="registration" onSubmit={handleSubmit}>
             {/* // new content here */}
@@ -113,13 +114,15 @@ const LoginPage = () => {
 
           </form>
         </Box>
-
-
-
-
       </Box>
       <Box p="2rem">
       </Box>
+      <Dialog open={showSuccessDialog}>
+        <DialogTitle>Login Successful</DialogTitle>
+        <DialogContent>
+          <Typography className="success-animation">Redirecting to the dashboard...</Typography>
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 };
